@@ -1,12 +1,6 @@
 'use strict';
 
-// const express = require('express')
-// const app = express()
-// const port = process.env.PORT || 3000
-// // const knex = require('./db');
-// const { camelizeKeys, decamelizeKeys } = require('humps');
 
-const boom = require('boom');
 const express = require('express');
 const router = express.Router();
 const knex = require('../knex');
@@ -43,9 +37,7 @@ router.post('/books', (req, res, next) => {
 
       res.send(book);
     })
-    .catch((err) => {
-      next(err);
-    });
+
 });
 
 router.patch('/books/:id', (req, res, next) => {
@@ -98,7 +90,7 @@ router.delete('/books/:id', (req, res, next) => {
 
   let book;
 
-  knex('books')
+  return knex('books')
     .where('id', id)
     .first()
     .then((row) => {
@@ -106,7 +98,7 @@ router.delete('/books/:id', (req, res, next) => {
 
       return knex('books')
         .del()
-        .where('id', id);
+        .where('id', id)
     })
     .then(() => {
       delete book.id;
